@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title><link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+            <h1>Gabriel Forecasts⛅</h1>
+            <h4>Dashboard</h4>
+        </header>
+        <p class="name">Simple Weather Tracker</p>
+        <p class="date">
+            <span class="date-left"></span>
+            <span class="time-right"></span>
+        </p>
+        <div class="input-wrapper">
+            <input type="text"
+              id="city-input"
+              placeholder="Enter Location">
+            <button type="button" id="search">Search
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <div class="error-reply"></div>
+        </div>
+        <div class="values">
+            <div class="value temp">
+                <span>Temperature</span>
+                <i class="fa-solid fa-temperature-half"></i>
+                <div class="main-value"></div>
+                <div class="feels-like"></div>
+            </div>
+            <div class="value humi">
+                <span>Humidity</span>
+                <i class="fa-solid fa-droplet"></i>
+                <div class="main-value"></div>
+                <div class="feels-like"></div>
+            </div>
+            <div class="value wind">
+                <span>Wind Speed</span>
+                <i class="fa-solid fa-wind"></i>
+                <div class="main-value"></div>
+                <div class="feels-like"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js" type="module"></script>
+</body>
+</html>
