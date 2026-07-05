@@ -1,3 +1,10 @@
+// ========================================
+// DOM ELEMENTS ===========================
+// ========================================
+
+const overlay = document.querySelector(".overlay");
+const date = document.querySelector(".date-left");
+const time = document.querySelector(".time-right");
 const buttonClicked = document.getElementById("search");
 const cityInput = document.querySelector("#city-input");
 let errorMessage = document.querySelector(".error-reply");
@@ -5,6 +12,11 @@ const tempValue = document.querySelector(".temp .main-value");
 const humValue = document.querySelector(".humi .main-value");
 const windValue = document.querySelector(".wind .main-value");
 
+// ========================================
+// APIS ===================================
+// ========================================
+
+// GETTING COORDINATES ========================
 async function getCoordinates() {
     const city = document.getElementById("city-input").value.trim();
     if (!city) return;
@@ -15,14 +27,17 @@ async function getCoordinates() {
     
     let data;
     try {
+        overlay.style.display = "grid"
         const response = await fetch(url);
         if (!response.ok) {
             if (errorMessage) {
+                overlay.style.display = "none";
                 errorMessage.textContent = "Failed to fetch co-ordinates";
                 errorMessage.style.display = "block";
             }
             throw new Error(`HTTP Error Status: ${response.status}`);
         }
+        buttonClicked.disabled = false;
         data = await response.json();
         console.log(data);
         errorMessage.innerHTML = "<span>Successfully fetched co-ordinates.<span>";
@@ -38,9 +53,14 @@ async function getCoordinates() {
     if (!data || !data.results || data.results.length === 0) {
         console.log("City not found");
         if (errorMessage) {
+            overlay.style.display = "none";
             errorMessage.textContent = "City not found. Try another search.";
             errorMessage.style.display = "block";
-            errorMessage.style.color = "rgb(255, 50, 50)"
+            errorMessage.style.color = "rgb(255, 50, 50)";
+
+            tempValue.textContent = "";
+            humValue.textContent = "";
+            windValue.textContent = "";
         }
         return;
     }
@@ -50,7 +70,7 @@ async function getCoordinates() {
     getWeather(latitude, longitude);
 }
 
-//API CALL
+// GETTING WEATHER ========================
 async function getWeather(lat, lon) {
     
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m,relative_humidity_2m`;
@@ -74,27 +94,36 @@ async function getWeather(lat, lon) {
         tempValue.textContent = `${temperature_2m} °C`;
         humValue.textContent = `${relative_humidity_2m}%`;
         windValue.textContent = `${wind_speed_10m} km/h`;
+        overlay.style.display = "none"
     } catch (error) {
         console.error('Failed to get data:', error.message);
     };
 };
 
+// ========================================
+// EVENT LISTENERS ========================
+// ========================================
+
+// ENTER KEY ==============================
 cityInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         getCoordinates();
     }
 });
 
+// SEARCH BUTTON ==============================
 buttonClicked.addEventListener("click", () => {
+    buttonClicked.disabled = true;
     getCoordinates();
 })
 
-
-const date = document.querySelector(".date-left");
-const time = document.querySelector(".time-right");
-
 let month = "";
 
+// ========================================
+// DATE & TIME ============================
+// ========================================
+
+// TIME ===================================
 function myClock() {
     setInterval(() => {
         const now = new Date();
@@ -112,6 +141,7 @@ function myClock() {
 }
 myClock();
 
+// MONTH ==================================
 function getMonth(monthIndex) {
     switch (monthIndex) {
         case 1:

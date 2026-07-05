@@ -7,12 +7,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+
+    <div class="overlay">
+        <img src="./assets/tube-spinner.svg" alt="Spinner"  />
+    </div>
+
     <div id="wrapper">
         <header>
             <h1>Gabriel Forecasts⛅</h1>
             <h4>Dashboard</h4>
         </header>
-        <p class="name">Simple Weather Tracker</p>
+        <div class="name">
+            <span>Simple Weather Tracker</span>
+            <div class="blink"></div>
+        </div>
         <p class="date">
             <span class="date-left"></span>
             <span class="time-right"></span>
@@ -47,7 +55,9 @@
             </div>
         </div>
     </div>
-
+    <footer>
+        &copy;
+    </footer>
     <script src="./script.js" type="module"></script>
 </body>
 </html>
