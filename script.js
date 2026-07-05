@@ -1,3 +1,6 @@
+import { weatherMap } from "./utils.js";
+
+
 // ========================================
 // DOM ELEMENTS ===========================
 // ========================================
@@ -11,6 +14,9 @@ let errorMessage = document.querySelector(".error-reply");
 const tempValue = document.querySelector(".temp .main-value");
 const humValue = document.querySelector(".humi .main-value");
 const windValue = document.querySelector(".wind .main-value");
+const weatherStateText = document.querySelector(".temp .weather_state .text");
+const weatherStateIcon = document.querySelector(".temp .weather_state i");
+const tempFeels = document.querySelector(".temp .feels-like");
 
 // ========================================
 // APIS ===================================
@@ -18,7 +24,7 @@ const windValue = document.querySelector(".wind .main-value");
 
 // GETTING COORDINATES ========================
 async function getCoordinates() {
-    const city = document.getElementById("city-input").value.trim();
+    const city = cityInput.value.trim();
     if (!city) return;
 
     if (errorMessage) errorMessage.style.display = "none";
@@ -31,15 +37,13 @@ async function getCoordinates() {
         const response = await fetch(url);
         if (!response.ok) {
             if (errorMessage) {
-                overlay.style.display = "none";
                 errorMessage.textContent = "Failed to fetch co-ordinates";
                 errorMessage.style.display = "block";
             }
             throw new Error(`HTTP Error Status: ${response.status}`);
         }
-        buttonClicked.disabled = false;
         data = await response.json();
-        console.log(data);
+        console.log(data, "coordinates");
         errorMessage.innerHTML = "<span>Successfully fetched co-ordinates.<span>";
         errorMessage.style.cssText = `
         text-align: center;
@@ -48,6 +52,10 @@ async function getCoordinates() {
     } catch (error) {
         console.error('Failed to get data:', error.message);
         return;
+    }
+    finally {
+        overlay.style.display = "none";
+        buttonClicked.disabled = false;
     }
 
     if (!data || !data.results || data.results.length === 0) {
@@ -73,7 +81,7 @@ async function getCoordinates() {
 // GETTING WEATHER ========================
 async function getWeather(lat, lon) {
     
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m,relative_humidity_2m`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,wind_speed_10m,relative_humidity_2m,weather_code`;
     try {
         const response = await fetch(url);
 
@@ -83,21 +91,30 @@ async function getWeather(lat, lon) {
         errorMessage.innerHTML += "<span>Successfully fetched weather.</span>";
 
         const data = await response.json();
-        console.log(data);
+        console.log(data, "weather");
 
         const {
             temperature_2m,
+            apparent_temperature,
             relative_humidity_2m,
-            wind_speed_10m
+            wind_speed_10m,
+            weather_code
         } = data.current;
 
+        const weather = weatherMap[weather_code]
+
+        weatherStateText.textContent = weather.text;
+        weatherStateIcon.classList = `fa-solid ${weather.icon}`
         tempValue.textContent = `${temperature_2m} °C`;
+        tempFeels.textContent = `Feels like ${apparent_temperature}°C`;
         humValue.textContent = `${relative_humidity_2m}%`;
         windValue.textContent = `${wind_speed_10m} km/h`;
-        overlay.style.display = "none"
     } catch (error) {
         console.error('Failed to get data:', error.message);
-    };
+    }
+    finally {
+        overlay.style.display = "none";
+    }
 };
 
 // ========================================
@@ -116,8 +133,6 @@ buttonClicked.addEventListener("click", () => {
     buttonClicked.disabled = true;
     getCoordinates();
 })
-
-let month = "";
 
 // ========================================
 // DATE & TIME ============================
@@ -142,47 +157,8 @@ function myClock() {
 myClock();
 
 // MONTH ==================================
-function getMonth(monthIndex) {
-    switch (monthIndex) {
-        case 1:
-            month = "February";
-            break;
-        case 2:
-            month = "March";
-            break;
-        case 3:
-            month = "April";
-            break;
-        case 4:
-            month = "May";
-            break;
-        case 5:
-            month = "June";
-            break;
-        case 6:
-            month = "July";
-            break;
-        case 7:
-            month = "August";
-            break;
-        case 8:
-            month = "September";
-            break;
-        case 9:
-            month = "October";
-            break;
-        case 10:
-            month = "November";
-            break;
-        case 11:
-            month = "December";
-            break;
+const month = new Intl.DateTimeFormat("en-US", {
+    month: "long"
+}).format(new Date());
 
-        default:
-            month = "January";
-            break;
-    }
-
-    return month;
-}
-date.innerText += `Live Weather Tracker - ${getMonth(new Date().getMonth())}`;
+date.innerText += `Live Weather Tracker - ${month}`;
