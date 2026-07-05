@@ -1,0 +1,12 @@
+export const overlay = document.querySelector(".overlay");
+export const date = document.querySelector(".date-left");
+export const time = document.querySelector(".time-right");
+export const buttonClicked = document.getElementById("search");
+export const cityInput = document.querySelector("#city-input");
+export let errorMessage = document.querySelector(".error-reply");
+export const tempValue = document.querySelector(".temp .main-value");
+export const humValue = document.querySelector(".humi .main-value");
+export const windValue = document.querySelector(".wind .main-value");
+export const weatherStateText = document.querySelector(".temp .weather_state .text");
+export const weatherStateIcon = document.querySelector(".temp .weather_state i");
+export const tempFeels = document.querySelector(".temp .feels-like");

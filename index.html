@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>VAR</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -22,6 +22,10 @@
         </header>
         <div class="name">
             <span>Simple Weather Tracker</span>
+            &ensp;
+            <button id="theme-toggle">
+                <i class="fa-solid fa-sun"></i>
+            </button>
             <div class="blink"></div>
         </div>
         <p class="date">
@@ -64,12 +68,9 @@
         <footer>
             &copy; Gabriel Dodowei
             <span id="year"></span>
-            <script>
-                document.getElementById("year").textContent = new Date().getFullYear();
-            </script>
         </footer>
     </div>
-    <script src="./script.js" type="module"></script>
+    <script src="./main_script.js" type="module"></script>
 </body>
 
 </html>

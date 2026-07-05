@@ -1,5 +1,18 @@
-html {
-  margin: 0;
+:root {
+  --bg: #F2F2F7;
+  --overlaybg: rgba(255, 255, 255, 0.6);
+  --text: #111827;
+  --cardcolor: #FFFFFF;
+  --headercolor: #34C759;
+  --errortext: rgb(255, 50, 50);
+}
+
+.dark-theme {
+  --bg: black;
+  --overlaybg: rgba(0, 0, 0, 0.5);
+  --text: white;
+  --cardcolor: whitesmoke;
+  --headercolor: #29E929;
 }
 
 body {
@@ -20,8 +33,8 @@ body {
   width: 100%;
   margin: 0;
   place-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
+  background: var(--overlaybg);
+  backdrop-filter: blur(5px);
 }
 .overlay img {
   width: 70px;
@@ -32,7 +45,7 @@ body {
   width: 100%;
   height: 100%;
   margin: 0;
-  background: black;
+  background: var(--bg);
 }
 
 header {
@@ -41,7 +54,7 @@ header {
   display: flex;
   align-items: center;
   border-bottom: 1px solid green;
-  color: #29E929;
+  color: var(--headercolor);
   padding: 1rem 0;
 }
 header h1 {
@@ -53,12 +66,12 @@ header h4 {
 
 #wrapper > p {
   margin-left: 1rem;
-  color: white;
+  color: var(--text);
 }
 
 #wrapper > .name {
   margin: 1rem 0 0 1rem;
-  color: white;
+  color: var(--text);
   font-size: 2rem;
   font-weight: bold;
   display: flex;
@@ -68,9 +81,21 @@ header h4 {
   width: -moz-fit-content;
   width: fit-content;
 }
+#wrapper > .name #theme-toggle {
+  background: var(--text);
+  color: yellow;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--text);
+  cursor: pointer;
+}
 #wrapper > .name .blink {
   margin: 0 2rem 0 auto;
-  background: #22C55E;
+  background: var(--headercolor);
   height: 8px;
   width: 8px;
   border-radius: 50%;
@@ -103,29 +128,29 @@ header h4 {
 .input-wrapper input {
   height: 2rem;
   min-width: 200px;
-  border: 1px solid white;
-  padding: 0 10px;
+  border: 1px solid var(--text);
+  padding: 0 20px;
   border-radius: 1rem;
 }
 .input-wrapper button {
   padding: 10px;
   border-radius: 10px;
   border: inherit;
-  box-shadow: 0 0 5px 1px white;
+  box-shadow: 0 0 5px 1px var(--text);
   transition: transform 0.2s;
   cursor: pointer;
 }
 .input-wrapper button:hover {
   transform: scale(1.1);
   background: linear-gradient(blue, rgb(5, 202, 5));
-  color: white;
-  box-shadow: inset 0 0 5px 1px white;
+  color: var(--text);
+  box-shadow: inset 0 0 5px 1px var(--bg);
 }
 .input-wrapper div {
   display: none;
   display: flex;
   flex-direction: column;
-  color: rgb(255, 50, 50);
+  color: var(--errortext);
 }
 
 .values {
@@ -136,12 +161,13 @@ header h4 {
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 .values .value {
-  background: whitesmoke;
+  background: var(--cardcolor);
   height: 200px;
   border-radius: 10px;
   text-align: center;
   clip-path: circle(50% at 50% 0);
   transition: clip-path 0.5s;
+  box-shadow: 0 0 3px 3px black;
 }
 .values .value:hover {
   clip-path: circle(70%);
@@ -178,7 +204,7 @@ footer {
   display: grid;
   margin-top: auto;
   width: 100%;
-  background: black;
-  color: white;
+  background: var(--bg);
+  color: var(--text);
   place-items: center;
 }/*# sourceMappingURL=style.css.map */
